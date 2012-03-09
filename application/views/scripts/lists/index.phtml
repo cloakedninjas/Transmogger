@@ -1,0 +1,50 @@
+<?php
+
+function isCur($sort, $page_sort) {
+	if ($sort == $page_sort) {
+		return 'selected="selected"';
+	}
+	return '';
+}
+?>
+<h2>Loadouts <span class="subtitle">ordered by</span>
+	<select onchange="pickTopList();">
+		<option value="popular" <?php echo isCur('popular', $this->sort); ?>>Most Popular</option>
+		<option value="rating"  <?php echo isCur('rating', $this->sort); ?>>Highest Rating</option>
+		<option value="newest"  <?php echo isCur('newest', $this->sort); ?>>Creation Date</option>
+	</select>
+</h2>
+<?php
+//$this->
+?>
+<div id="slider">
+	<div class="frame" data-frame="0">
+		<table id="popular_list" class="toplist">
+			<thead>
+				<tr>
+					<th class="rank">Rank</th>
+					<th class="label">Label</th>
+					<th class="rating">Rating</th>
+					<th class="rating">Votes</th>
+					<th class="data">Created</th>
+					<th class="rest"></th>
+				</tr>
+			</thead>
+			<tbody>
+	<?php
+		echo $this->topList($this->rows, $this->index_start);
+	?>
+			</tbody>
+		</table>
+<?php
+	echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml', array('item_name'=>'Loadouts', 'animate'=>true, 'anim_table'=>'popular_list'));
+?>
+	</div>
+</div>
+<script>
+slider.init();
+
+function pickTopList() {
+	document.location.href = '/lists/' + $("select").val();
+}
+</script>

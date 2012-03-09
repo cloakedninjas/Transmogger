@@ -1,0 +1,27 @@
+<script type="text/javascript">
+	$("document").ready(function() {
+		console.log("DOM ready");
+	});
+	
+	$("window").load(function() {
+		console.log("page loaded");
+	});
+</script>
+
+<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" WIDTH="<?php echo $this->width; ?>" HEIGHT="<?php echo $this->height; ?>" data="<?php echo $this->swf_url; ?>">
+	<PARAM NAME="movie" VALUE="<?php echo $this->swf_url; ?>">
+	<PARAM NAME="quality" VALUE="high">
+	<PARAM NAME="flashvars" VALUE="<?php echo $this->flash_vars; ?>">
+	<PARAM NAME="wmode" VALUE="transparent">
+	<param name="allowfullscreen" value="true">
+	<param name="allowscriptaccess" value="always">
+	<param name="menu" value="false">
+	<EMBED wmode="transparent" src="<?php echo $this->swf_url; ?>"
+		quality="high" WIDTH="<?php echo $this->width; ?>" HEIGHT="<?php echo $this->height; ?>" TYPE="application/x-shockwave-flash"
+		flashvars="<?php echo $this->flash_vars; ?>"
+		PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer"
+		allowfullscreen="true"
+		allowscriptaccess="always"
+		menu="false"
+	></EMBED>
+</OBJECT>

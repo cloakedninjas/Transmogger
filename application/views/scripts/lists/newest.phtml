@@ -1,0 +1,52 @@
+<?php
+function formatDate($date) {
+	$time = strtotime($date);
+	$age = time() - $time;
+
+	if ($age < 60) {
+		return "just now";
+	}
+	elseif ($age < 300) {
+		return "a few minutes ago";
+	}
+	elseif ($age < 3600) {
+		return "in the last hour";
+	}
+	elseif ($age < 86400) {
+		$hours = ceil($age / 3600);
+		return "$hours hours ago";
+	}
+	elseif ($age < 172800) {
+		return "yesterday";
+	}
+	elseif ($age < 604800) {
+		return date("l", $time);
+	}
+	elseif ($age < 2592000) {
+		$days = ceil($age / 86400);
+		return "$days days ago";
+	}
+	else {
+		return date("F", $time);
+	}
+
+}
+?>
+
+<div class="texta">
+<h2>Top 20 Newest Loadouts</h2>
+<ol class="toplist">
+
+<?php
+foreach ($this->rows as $row) {
+	$row->label = ($row->label) ? $row->label : 'Untitled';
+	echo "<li>
+	<a href=\"/$row->ref\">$row->label</a>
+	<span class=\"date\">" . formatDate($row->created) . "</span>
+	</li>";
+}
+
+?>
+</ol>
+</div>
+

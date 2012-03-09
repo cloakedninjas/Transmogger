@@ -1,0 +1,233 @@
+<?php
+$config = Zend_Registry::get('config');
+/*
+ * 	<select id="loadouts">
+		<option value="">Dungeon Sets</option>
+		<optgroup label="Dungeon Set 1">
+			<option value="shaman-d1">The Elements</option>
+			<option value="mage-d1">Magister's Reglia</option>
+			<option value="priest-d1">Vestments of the Devout</option>
+			<option value="paladin-d1">Lightforge Armor</option>
+			<option value="druid-d1">Wildheart Raiment</option>
+			<option value="warrior-d1">Battlegear of Valor</option>
+			<option value="rogue-d1">Shadowcraft Armor</option>
+			<option value="hunter-d1">Beaststalker Armor</option>
+			<option value="warlock-d1">Dreadmist Raiment</option>
+		</optgroup>
+	</select>
+ */
+
+	function outputStar($ref, $i, $type='full'){
+		$votes = (isset($_COOKIE['votes'])) ? json_decode($_COOKIE['votes']) : array();
+
+		$can_vote = is_array($votes) && !in_array($ref, $votes);
+		$html = '';
+
+		if ($can_vote) {
+			$html .= "<a href=\"#\" onclick=\"app.castVote($i); return false;\">";
+		}
+
+		if ($type == 'full') {
+			$html .= "<img src=\"/images/star.png\" />";
+		}
+		elseif ($type == 'half') {
+			$html .= "<img src=\"/images/star-half.png\" />";
+		}
+		else {
+			$html .= "<img src=\"/images/star-empty.png\" />";
+		}
+		if ($can_vote) {
+			$html .= "</a>";
+		}
+
+		return $html;
+	}
+?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	app.loadout.label = "<?php echo $this->loadout->label; ?>";
+	app.loadout.items = <?php echo json_encode($this->item_array); ?>;
+	app.loadout.race = "<?php echo $this->loadout->race; ?>";
+	app.loadout.gender = "<?php echo $this->loadout->gender; ?>";
+	app.loadout.ref = "<?php echo $this->loadout->ref; ?>";
+	<?php if ($this->render) {
+		echo "app.render = true;";
+	}
+
+	echo "
+	app.base_url = \"$this->http_url\";
+	app.base_icon_path = \"" . $config->app->icon_path . "\";
+	app.base_icon_path_med = \"" . $config->app->icon_path_med . "\";
+	app.content_url = \"" . $config->app->content_url . "\";
+	";
+
+	?>
+
+	app.init();
+});
+</script>
+
+<div id="app">
+<?php
+$label = $this->loadout->label;
+
+if ($this->loadout->set_name) {
+	$label .= ': ' . $this->loadout->set_name;
+}
+?>
+	<h2 class="label"><?php echo $label; ?></h2>
+	<div class="items left">
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_HEAD; ?>">He<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_SHOULDERS; ?>">Sho<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_BACK; ?>">Ba<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_CHEST; ?>">Ch<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_SHIRT; ?>">Shi<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_WRIST; ?>">Wr<ins></ins></span>
+	</div>
+	<div id="mviewer">
+		<div>
+<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" WIDTH="100%" HEIGHT="100%" data="<?php echo $this->swf_url; ?>">
+<PARAM NAME="movie" VALUE="<?php echo $this->swf_url; ?>">
+<PARAM NAME="quality" VALUE="high">
+<PARAM NAME="flashvars" VALUE="">
+<PARAM NAME="wmode" VALUE="transparent">
+<param name="allowfullscreen" value="true">
+<param name="allowscriptaccess" value="always">
+<param name="menu" value="false">
+<EMBED wmode="transparent" src="<?php echo $this->swf_url; ?>"
+quality="high" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash"
+flashvars=""
+PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer"
+allowfullscreen="true"
+allowscriptaccess="always"
+menu="false"
+></EMBED>
+</OBJECT>
+		</div>
+	</div>
+
+	<div class="items right">
+		<span class="s1" data-slot="<?php echo Model_Item::SLOT_HAND; ?>">Ha<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_WAIST; ?>">Wa<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_LEGS; ?>">Le<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_FEET; ?>">Fe<ins></ins></span>
+	</div>
+
+	<div class="clear"></div>
+
+	<div class="items bottom">
+		<span class="s1" data-slot="<?php echo Model_Item::SLOT_MAIN_HAND; ?>">MH<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_OFF_HAND; ?>">OH<ins></ins></span>
+		<span class="s" data-slot="<?php echo Model_Item::SLOT_RANGED; ?>">Ra<ins></ins></span>
+		<div class="clear"></div>
+	</div>
+
+	<div class="clear"></div>
+</div>
+
+<div id="help">
+	<section class="options">
+		<h2>Options</h2>
+		<p>
+			<label>Restrict armour to: </label>
+			<select name="restrict" onchange="app.restrict = this.options[this.selectedIndex].value;">
+				<option value="0">No restriction</option>
+				<option value="<?php echo Model_Item::SUB_TYPE_CLOTH; ?>">Cloth</option>
+				<option value="<?php echo Model_Item::SUB_TYPE_LEATHER; ?>">Leather</option>
+				<option value="<?php echo Model_Item::SUB_TYPE_MAIL; ?>">Mail</option>
+				<option value="<?php echo Model_Item::SUB_TYPE_PLATE; ?>">Plate</option>
+			</select>
+		</p>
+		<p>
+			<label>Race: </label>
+			<select name="race">
+				<optgroup label="Alliance">
+					<option value="human">Human</option>
+					<option value="dwarf">Dwarf</option>
+					<option value="gnome">Gnome</option>
+					<option value="nightelf">Night Elf</option>
+					<option value="draenei">Draenei</option>
+					<option value="worgen">Worgen</option>
+				</optgroup>
+				<optgroup label="Horde">
+					<option value="orc">Orc</option>
+					<option value="troll">Troll</option>
+					<option value="tauren">Tauren</option>
+					<option value="scourge">Undead</option>
+					<option value="bloodelf">Blood Elf</option>
+					<option value="goblin">Goblin</option>
+				</optgroup>
+			</select>
+		</p>
+		<p>
+			<label>Gender: </label>
+			<select name="gender">
+				<option value="male">Male</option>
+				<option value="female">Female</option>
+			</select>
+		</p>
+
+	</section>
+
+	<section class="save">
+		<h2>Save this loadout</h2>
+		<p><label>Name: </label><input id="new_label" type="text" value="" autocomplete="off" /></p>
+		<p><input type="button" onclick="app.saveLoadout()" value="Save" autocomplete="off" /></p>
+	</section>
+
+	<section class="rate" <?php if ($this->render) { echo "style=\"display: block;\""; } ?>>
+		<h2>Rating</h2>
+		<p>
+		<?php
+		$full = floor($this->loadout->rating_score);
+		$half = round($this->loadout->rating_score) > $full;
+
+		for ($i = 1; $i <= 5; $i++) {
+			if ($full >= $i) {
+				echo outputStar($this->loadout->ref, $i);
+			}
+			else {
+				if ($half) {
+					echo outputStar($this->loadout->ref, $i, 'half');
+					$half = false;
+				}
+				else {
+					echo outputStar($this->loadout->ref, $i, 'empty');
+				}
+			}
+		}
+
+		echo "
+		<span class=\"current\">" . $this->loadout->rating_score . " from " . $this->loadout->rating_votes . " votes</span>
+		<span class=\"cast\">Rate it <span class=\"amount\"></span>!</span>";
+		?>
+
+		</p>
+	</section>
+
+	<section class="share">
+		<h2>Share</h2>
+		<p><input id="share_url" type="text" value="" /></p>
+		<div class="share google"><g:plusone size="medium"></g:plusone></div>
+		<div class="share fb"><div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-colorscheme="dark" data-font="verdana"></div></div>
+		<div class="share twitter"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a></div>
+		<div class="clear"></div>
+	</section>
+</div>
+
+<div class="clear"></div>
+
+<div id="slot_prompt" style="display: none;">
+	<a class="close" onclick="app.closeSearch(); return false;"></a>
+	<h3>Change Item <span></span></h3>
+
+	<div class="current"></div>
+
+	<div class="new">
+		<h4>Search for item:</h4>
+		<p><input type="text" name="search" value="" /></p>
+
+		<ul></ul>
+	</div>
+</div>

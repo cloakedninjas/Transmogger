@@ -1,0 +1,15 @@
+
+<div class="texta">
+<h2>Top 20 Most Popular Loadouts</h2>
+<ol class="toplist">
+
+<?php
+foreach ($this->rows as $row) {
+	$row->label = ($row->label) ? $row->label : 'Untitled';
+	echo "<li><a href=\"/$row->ref\">$row->label</a></li>";
+}
+
+?>
+</ol>
+</div>
+

@@ -1,0 +1,119 @@
+<?php
+/*
+$start = 1326891600;
+$end = 1326934800;
+
+if (time() > $start && time() < $end) {
+	echo file_get_contents(APPLICATION_PATH . '/layouts/scripts/layout-sopa.phtml');
+	exit;
+}
+*/
+
+$taglines = array (
+		'"Bringing out the banana shoulders"',
+		'I can haz clownsuit?',
+		'Transmogrification previewer',
+		'"Teach a man to fish, and he\'ll equip it as his main weapon"'
+	);
+
+$rand = rand(0, 3);
+$random_tagline = $taglines[$rand];
+
+$config = Zend_Registry::get("config");
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="/js/app.js?v=5"></script>
+		<link type="text/css" rel="stylesheet" href="/css/screen.css?v=12" />
+		<title>Transmogger</title>
+		<meta name="description" content="Tranmogrification utility using WoWhead 3D model viewer" />
+		<meta name="keywords" content="transmogrification, transmogrify, transmogger, wow, armour, preview" />
+		<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+		<link rel="image_src" href="<?php echo $config->app->url; ?>/images/website_thumb.png"/>
+
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-5749724517188058";
+		google_ad_slot = "9228224580";
+		google_ad_width = 160;
+		google_ad_height = 600;
+		//-->
+		</script>
+	</head>
+
+	<body>
+		<div id="ad">
+			<?php
+			if (APPLICATION_ENV == 'production') {
+			?>
+			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+			<?php } ?>
+		</div>
+		<div id="frame">
+			<div class="header">
+				<a id="logo" href="/"><img src="/images/logo1.png" alt="Transmogger" /></a>
+				<h2><?php echo $random_tagline; ?></h2>
+				<ul class="main_menu">
+					<li><a href="/">Home</a></li>
+					<li><a href="/content/news/">News</a></li>
+					<li><a href="/lists/popular/">Loadouts</a></li>
+					<li><a href="/content/rules/">Rules</a></li>
+					<li class="twitter"><a href="https://twitter.com/#!/Transmogger" target="_blank" title="Twitter Status Updates" onClick="recordOutboundLink(this, 'outbound_link', 'twitter feed');return false;"></a></li>
+				</ul>
+			</div>
+
+			<div class="content">
+				<?php echo $this->layout()->content ?>
+			</div>
+
+
+		</div>
+
+		<div id="footer">
+			<p>&copy; <?php echo date("Y"); ?> -
+			Artwork by <a href="http://eu.battle.net/wow/en/" target="_blank">Blizzard</a> |
+			3D Model viewer by <a href="http://www.wowhead.com/" target="_blank">WoWHead</a> |
+			<a href="mailto:feedback@transmogger.info">Feedback</a>
+		</div>
+
+		<div id="fb-root"></div>
+<?php
+if (APPLICATION_ENV == 'production') {
+?>
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25649189-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.onload = function () {app.tracking=true;};
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+(function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	po.src = 'https://apis.google.com/js/plusone.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=228311627201406&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+</script>
+
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<?php
+}
+?>
+	</body>
+</html>

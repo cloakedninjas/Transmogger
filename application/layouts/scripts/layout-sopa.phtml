@@ -1,0 +1,73 @@
+<?php
+$config = Zend_Registry::get("config");
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+		<script type="text/javascript" src="/js/app.js?v=1"></script>
+		<link type="text/css" rel="stylesheet" href="/css/screen.css?v=10" />
+		<title>Transmogger - Blackout</title>
+		<meta name="description" content="Tranmogrification utility using WoWhead 3D model viewer" />
+		<meta name="keywords" content="transmogrification, transmogrify, transmogger, wow, armour, preview" />
+		<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+		<link rel="image_src" href="<?php echo $config->app->url; ?>/images/website_thumb.png"/>
+
+		<style>
+			body {
+				padding: 20px;
+				background: #000;
+				color: #fff;
+				font-family: verdana;
+				font-size: 11px;
+			}
+
+
+		</style>
+
+	</head>
+
+	<body>
+		<h1>Transmogger is blacked-out in opposition of SOPA / SIPA</h1>
+
+		<p>Between 8am - 8pm EST (1pm - 1am GMT) on January 18 - this site will be unavailable as an example of the what could happen if US Congress approves the Stop Online Piracy Act (SOPA)</p>
+
+		<p>Even though this site is owned, run and hosted from the UK, SOPA could have the power to shut it down. This is a preview of what could happen</p>
+
+		<p>Normal service will resume January 19. Apologies for the disruption, but as a web developer, I find it offensive that the Internet could be controlled in such a draconian manner.</p>
+
+		<h2>For more information on the issue check:</h2>
+
+		<p><a href="http://www.opencongress.org/bill/112-h3261/show">OpenCongress.org</a></p>
+		<p><a href="http://www.reddit.com/help/faqs/sopa">Reddit FAQ</a></p>
+		<p><a href="http://americancensorship.org/infographic.html">http://americancensorship.org</a></p>
+
+
+
+
+<?php
+if (APPLICATION_ENV == 'production') {
+?>
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25649189-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.onload = function () {app.tracking=true;};
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+
+</script>
+
+<?php
+}
+?>
+
+
+	</body>
+</html>

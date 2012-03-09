@@ -1,0 +1,20 @@
+<table id="popular_list" class="toplist">
+	<thead>
+		<tr>
+			<th class="rank">Rank</th>
+			<th class="label">Label</th>
+			<th class="rating">Rating</th>
+			<th class="rating">Votes</th>
+			<th class="rest"></th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+	echo $this->topList($this->rows, $this->index_start);
+?>
+	</tbody>
+</table>
+
+<?php
+	echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml', array('item_name'=>'Loadouts', 'animate'=>true, 'anim_table'=>'popular_list'));
+?>

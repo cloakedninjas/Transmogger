@@ -1,0 +1,50 @@
+<?php
+
+function onClick($view, $direction) {
+	if ($view->animate) {
+		return 'onclick="return slider.slideTo(this.href, \'' . $view->anim_table . '\', \'' . $direction . '\');"';
+	}
+}
+
+if ($this->pageCount) {
+?>
+<div class="paginationControl">
+
+<?php if (isset($this->previous)) { ?>
+	<a href="<?php echo $this->url(array('page' => 1)); ?>" <?php echo onClick($this, 'back'); ?>>|&lt; First</a>
+	<a href="<?php echo $this->url(array('page' => $this->previous)); ?>" <?php echo onClick($this, 'back'); ?>>&lt; Previous</a>
+<?php
+}
+else {
+?>
+<span class="disabled">|&lt; First</span>
+<span class="disabled">&lt; Previous</span>
+<?php }
+
+// numbered links
+
+foreach ($this->pagesInRange as $page) {
+	$dir = ($page < $this->current) ? 'back' : 'next';
+	if ($page != $this->current) { ?>
+<a href="<?php echo $this->url(array('page' => $page)); ?>" <?php echo onClick($this, $dir); ?>><?php echo $page; ?></a>
+<?php
+	}
+	else { ?>
+<span><?php echo $page; ?></span>
+<?php }
+}
+
+
+if (isset($this->next)) { ?>
+	<a href="<?php echo $this->url(array('page' => $this->next)); ?>" <?php echo onClick($this, 'next'); ?>>Next &gt;</a>
+	<a href="<?php echo $this->url(array('page' => $this->pageCount)); ?>" <?php echo onClick($this, 'next'); ?>>Last &gt;|</a>
+<?php } else { ?>
+	<span class="disabled">Next &gt;</span>
+	<span class="disabled">Last &gt;|</span>
+<?php } ?>
+
+	<span class="total"><?php echo $this->item_name; ?>: <?php echo $this->totalItemCount; ?> | Pages: <?php echo $this->pageCount; ?></span>
+</div>
+<?php
+}
+?>
