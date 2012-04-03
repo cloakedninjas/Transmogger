@@ -23,6 +23,7 @@ class Model_Item extends Model_Base {
 	const INV_ONE_HAND = 13;
 	const INV_TWO_HAND = 17;
 	const INV_OFF_HAND = 22;
+	const INV_HELD_IN_OFF_HAND = 23;
 	const INV_SHIELD = 14;
 
 	const INV_RANGED = 15;
@@ -101,7 +102,7 @@ class Model_Item extends Model_Base {
 			return array(self::INV_MAIN_HAND, self::INV_ONE_HAND, self::INV_TWO_HAND);
 		}
 		elseif($slot == self::SLOT_OFF_HAND) {
-			return array(self::INV_OFF_HAND, self::INV_ONE_HAND, self::INV_TWO_HAND, self::INV_SHIELD);
+			return array(self::INV_OFF_HAND, self::INV_ONE_HAND, self::INV_TWO_HAND, self::INV_SHIELD, self::INV_HELD_IN_OFF_HAND);
 		}
 		elseif($slot == self::SLOT_RANGED) {
 			return array(self::INV_RANGED, self::INV_THROWN, self::INV_RANGED_RIGHT);
