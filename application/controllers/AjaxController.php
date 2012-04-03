@@ -114,7 +114,14 @@ class AjaxController extends Zend_Controller_Action {
 
 		$query .= '
 		AND status = 1
-		AND (
+		AND (';
+
+		if ($slot == Model_Item::SLOT_SHIRT) {
+			$query .= '
+			quality = ' . Model_Item::QUALITY_COMMON . ' OR';
+		}
+
+		$query .= '
 			quality = ' . Model_Item::QUALITY_UNCOMMON . ' OR
 			quality = ' . Model_Item::QUALITY_RARE . ' OR
 			quality = ' . Model_Item::QUALITY_EPIC . ' OR
@@ -123,7 +130,7 @@ class AjaxController extends Zend_Controller_Action {
 		ORDER BY name
 		LIMIT 15';
 
-		//echo $query;
+		echo $query;
 
     	$rows = $db->fetchAll($query);
     	//var_dump($rows);
