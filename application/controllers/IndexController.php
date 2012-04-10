@@ -45,6 +45,7 @@ class IndexController extends Zend_Controller_Action {
 		$query = 'SELECT id FROM items
 		WHERE name_de IS NULL
 		AND status = 1
+		AND locale_skip IS NULL
 		ORDER BY display_id DESC
 		LIMIT 20';
 
