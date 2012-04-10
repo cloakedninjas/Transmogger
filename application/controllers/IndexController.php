@@ -47,7 +47,7 @@ class IndexController extends Zend_Controller_Action {
 		AND status = 1
 		AND locale_skip IS NULL
 		ORDER BY display_id DESC
-		LIMIT 20';
+		LIMIT 1';
 
 		$rows = $db->fetchAll($query);
 

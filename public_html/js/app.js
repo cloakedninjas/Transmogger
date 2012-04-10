@@ -17,7 +17,8 @@ app = {
 		lang: "en_US",
 		lookups: [],
 		interval: 3000,
-		results: 0
+		results: 0,
+		max: 50
 	},
 
 	beginChangeItem: function(slot) {
@@ -322,6 +323,7 @@ app = {
 		$.ajax({
 			url: '/ajax/lookup-locale/',
 			type: 'post',
+			dataType : 'JSON',
 			data: {
 				id: packet.id,
 				lang: app.locale.lang,
@@ -329,8 +331,20 @@ app = {
 			},
 			dataType : 'JSON',
 			success: function(response) {
-				app.locale.lookups.splice(0, 1);
-				app.locale.t = setTimeout("app.lookupLocale()", app.locale.interval);
+
+				if (typeof response.next == 'undefined') {
+					return;
+				}
+
+				app.locale.results++;
+
+				if (app.locale.results >= app.locale.max) {
+					return;
+				}
+				if (response.next != 0) {
+					app.locale.lookups[0] = response.next;
+					app.locale.t = setTimeout("app.lookupLocale()", app.locale.interval);
+				}
 			}
 		});
 	},

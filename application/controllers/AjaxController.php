@@ -158,7 +158,7 @@ class AjaxController extends Zend_Controller_Action {
     public function lookupLocaleAction() {
     	$db = Zend_Registry::get("db");
 
-    	$return = false;
+    	$return = array('next'=>0);
 
     	switch ($this->_getParam("lang")) {
     		case "de_DE" :
@@ -177,8 +177,22 @@ class AjaxController extends Zend_Controller_Action {
 	    	SET name_$col = $val
 	    	WHERE id = $id";
 
-	    	$db->query($query);
-	    	$return = true;
+	    	$result = $db->query($query);
+
+	    	if ($result !== false) {
+	    		$query = 'SELECT id FROM items
+				WHERE name_de IS NULL
+				AND status = 1
+				AND locale_skip IS NULL
+				ORDER BY display_id DESC
+				LIMIT 1';
+
+				$rows = $db->fetchAll($query);
+
+				if (count($rows) == 1) {
+					$return['next'] = $rows[0]->id;
+				}
+	    	}
 	    }
 
 	    echo json_encode($return);
