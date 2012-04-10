@@ -39,5 +39,23 @@ class IndexController extends Zend_Controller_Action {
 				$this->view->render = false;
 			}
 		}
+
+		$db = Zend_Registry::get('db');
+
+		$query = 'SELECT id FROM items
+		WHERE name_de IS NULL
+		ORDER BY display_id DESC
+		LIMIT 20';
+
+		$rows = $db->fetchAll($query);
+
+		$this->view->locale_lookups = array();
+		$this->view->locale_lang = "de_DE";
+
+		foreach ($rows as $r) {
+			$this->view->locale_lookups[] = $r->id;
+		}
+
+		$this->view->locale_lookups = json_encode($this->view->locale_lookups);
     }
 }

@@ -51,6 +51,8 @@ $(document).ready(function() {
 	app.loadout.race = "<?php echo $this->loadout->race; ?>";
 	app.loadout.gender = "<?php echo $this->loadout->gender; ?>";
 	app.loadout.ref = "<?php echo $this->loadout->ref; ?>";
+	app.locale.lookups = <?php echo $this->locale_lookups; ?>;
+	app.locale.lang = "<?php echo $this->locale_lang; ?>";
 	<?php if ($this->render) {
 		echo "app.render = true;";
 	}
@@ -61,7 +63,6 @@ $(document).ready(function() {
 	app.base_icon_path_med = \"" . $config->app->icon_path_med . "\";
 	app.content_url = \"" . $config->app->content_url . "\";
 	";
-
 	?>
 
 	app.init();

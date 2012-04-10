@@ -154,4 +154,33 @@ class AjaxController extends Zend_Controller_Action {
 
     	echo $loadout->rating_score;
     }
+
+    public function lookupLocaleAction() {
+    	$db = Zend_Registry::get("db");
+
+    	$return = false;
+
+    	switch ($this->_getParam("lang")) {
+    		case "de_DE" :
+    			$col = 'de';
+    			break;
+
+    		default:
+    			$col = null;
+    	}
+
+    	if ($col !== null) {
+    		$val = $db->quote($this->_getParam('name'));
+    		$id = intval($this->_getParam('id'));
+
+	    	$query = "UPDATE items
+	    	SET name_$col = $val
+	    	WHERE id = $id";
+
+	    	$db->query($query);
+	    	$return = true;
+	    }
+
+	    echo json_encode($return);
+    }
 }

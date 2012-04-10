@@ -12,6 +12,13 @@ app = {
 	item_cache: [],
 	restrict: 0,
 	tracking: false,
+	locale: {
+		t: null,
+		lang: "en_US",
+		lookups: [],
+		interval: 3000,
+		results: 0
+	},
 
 	beginChangeItem: function(slot) {
 		if (this.tracking) {
@@ -305,6 +312,29 @@ app = {
 		});
 	},
 
+	lookupLocale: function() {
+		if (app.locale.lookups.length > 0) {
+			$("head").append("<script type=\"text/javascript\" src=\"http://eu.battle.net/api/wow/item/" + app.locale.lookups[0] + "?jsonp=app.localeCallback&locale=" + app.locale.lang + "\"></script>");
+		}
+	},
+
+	localeCallback: function(packet) {
+		$.ajax({
+			url: '/ajax/lookup-locale/',
+			type: 'post',
+			data: {
+				id: packet.id,
+				lang: app.locale.lang,
+				name: packet.name
+			},
+			dataType : 'JSON',
+			success: function(response) {
+				app.locale.lookups.splice(0, 1);
+				app.locale.t = setTimeout("app.lookupLocale()", app.locale.interval);
+			}
+		});
+	},
+
 	init: function() {
 		$(document).keyup(function(e) {
 			// detect Esc button
@@ -411,6 +441,10 @@ app = {
 				$("#help section.rate span.cast").hide();
 				$("#help section.rate span.current").show();
 		});
+
+
+		// get localizations
+		this.locale.t = setTimeout("app.lookupLocale()", this.locale.interval);
 	}
 };
 
@@ -498,7 +532,7 @@ slider = {
 			// url - probly from Ajax
 			location = this.cache.urls.indexOf(location);
 		}
-		
+
 		var scroll = (dir == 'next') ? '-100%' : '100%';
 		$("#slider .frame[data-frame='" + this.showing + "']").animate({left: scroll}, this.slide_duration, function() {
 			$(this).hide().css("left", "auto");
