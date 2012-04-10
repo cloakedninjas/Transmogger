@@ -44,6 +44,7 @@ class IndexController extends Zend_Controller_Action {
 
 		$query = 'SELECT id FROM items
 		WHERE name_de IS NULL
+		AND status = 1
 		ORDER BY display_id DESC
 		LIMIT 20';
 
