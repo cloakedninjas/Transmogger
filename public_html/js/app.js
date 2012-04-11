@@ -316,11 +316,13 @@ app = {
 	lookupLocale: function() {
 		if (app.locale.lookups.length > 0) {
 			$("head").append("<script type=\"text/javascript\" src=\"http://eu.battle.net/api/wow/item/" + app.locale.lookups[0] + "?jsonp=app.localeCallback&locale=" + app.locale.lang + "\"></script>");
-			setTimeout("app.localeFailed()", 8000);
+			app.locale.t = setTimeout("app.localeFailed()", 8000);
 		}
 	},
 
 	localeCallback: function(packet) {
+		clearTimeout(app.locale.t);
+
 		$.ajax({
 			url: '/ajax/lookup-locale/',
 			type: 'post',
@@ -344,7 +346,7 @@ app = {
 				}
 				if (response.next != 0) {
 					app.locale.lookups[0] = response.next;
-					app.locale.t = setTimeout("app.lookupLocale()", app.locale.interval);
+					setTimeout("app.lookupLocale()", app.locale.interval);
 				}
 			}
 		});
@@ -364,7 +366,7 @@ app = {
 				if (typeof response.next != 'undefined') {
 					if (response.next != 0) {
 						app.locale.lookups[0] = response.next;
-						app.locale.t = setTimeout("app.lookupLocale()", app.locale.interval);
+						setTimeout("app.lookupLocale()", app.locale.interval);
 					}
 				}
 			}
