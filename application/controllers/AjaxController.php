@@ -170,17 +170,41 @@ class AjaxController extends Zend_Controller_Action {
     	}
 
     	if ($col !== null) {
-    		$val = $db->quote($this->_getParam('name'));
     		$id = intval($this->_getParam('id'));
+    		$failed = $this->_getParam('failed');
 
-	    	$query = "UPDATE items
-	    	SET name_$col = $val
-	    	WHERE id = $id";
+    		if ($failed === null) {
+	    		$val = $db->quote($this->_getParam('name'));
 
-	    	$result = $db->query($query);
+		    	$query = "UPDATE items
+		    	SET name_$col = $val
+		    	WHERE id = $id";
 
-	    	if ($result !== false) {
-	    		$query = 'SELECT id FROM items
+		    	$result = $db->query($query);
+
+		    	if ($result !== false) {
+		    		$query = 'SELECT id FROM items
+					WHERE name_de IS NULL
+					AND status = 1
+					AND locale_skip IS NULL
+					ORDER BY display_id DESC
+					LIMIT 1';
+
+					$rows = $db->fetchAll($query);
+
+					if (count($rows) == 1) {
+						$return['next'] = $rows[0]->id;
+					}
+		    	}
+    		}
+    		else {
+    			$query = "UPDATE items
+		    	SET locale_skip = 2
+		    	WHERE id = $id";
+
+		    	$db->query($query);
+
+    			$query = 'SELECT id FROM items
 				WHERE name_de IS NULL
 				AND status = 1
 				AND locale_skip IS NULL
@@ -192,7 +216,7 @@ class AjaxController extends Zend_Controller_Action {
 				if (count($rows) == 1) {
 					$return['next'] = $rows[0]->id;
 				}
-	    	}
+    		}
 	    }
 
 	    echo json_encode($return);
