@@ -28,6 +28,10 @@ class Model_Loadout extends Model_Base {
 		//exit;
 
 		foreach ($items as $item) {
+			if ($item == '') {
+				continue;
+			}
+
 			$parts = explode(':', $item);
 
 			$item = new Model_Item($parts[1]);
