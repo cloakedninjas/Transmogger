@@ -482,7 +482,7 @@ app = {
 
 
 		// get localizations
-		this.locale.t = setTimeout("app.lookupLocale()", this.locale.interval);
+		//this.locale.t = setTimeout("app.lookupLocale()", this.locale.interval);
 	}
 };
 

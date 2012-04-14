@@ -40,6 +40,7 @@ class IndexController extends Zend_Controller_Action {
 			}
 		}
 
+		/*
 		$db = Zend_Registry::get('db');
 
 		$query = 'SELECT id FROM items
@@ -59,5 +60,6 @@ class IndexController extends Zend_Controller_Action {
 		}
 
 		$this->view->locale_lookups = json_encode($this->view->locale_lookups);
+		*/
     }
 }

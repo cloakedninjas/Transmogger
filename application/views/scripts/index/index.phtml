@@ -51,8 +51,6 @@ $(document).ready(function() {
 	app.loadout.race = "<?php echo $this->loadout->race; ?>";
 	app.loadout.gender = "<?php echo $this->loadout->gender; ?>";
 	app.loadout.ref = "<?php echo $this->loadout->ref; ?>";
-	app.locale.lookups = <?php echo $this->locale_lookups; ?>;
-	app.locale.lang = "<?php echo $this->locale_lang; ?>";
 	<?php if ($this->render) {
 		echo "app.render = true;";
 	}
