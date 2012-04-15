@@ -83,7 +83,23 @@ class AjaxController extends Zend_Controller_Action {
 		$inv_id = Model_Item::slotToInv($slot);
 
 		$restrict = intval($this->_getParam('restrict'));
-
+		
+		$lang = $this->_getParam('lang');
+		
+		if ($lang === null) {
+			$lang = 'en';
+		}
+		
+		switch ($lang) {
+			case 'de':
+				$name_col = 'name_de';
+				break;
+				
+			default:
+				$name_col = 'name';
+				break;
+		}
+		
 		$inv_filter = '';
 
 		if (is_array($inv_id)) {
@@ -93,15 +109,12 @@ class AjaxController extends Zend_Controller_Action {
 			$inv_filter = "`inv_id` = $inv_id";
 		}
 
-		//echo $inv_filter;
-		//exit;
-
 		$db = Zend_Registry::get('db');
 		$query = '
-		SELECT id, name, icon, quality, i_level, display_id
+		SELECT id, ' . $name_col . ' AS name, icon, quality, i_level, display_id
 		FROM items
 		WHERE ' . $inv_filter . '
-		AND (name LIKE ' . $db->quote($search) . ' OR name LIKE ' . $db->quote($search2) . ') ';
+		AND (' . $name_col . ' LIKE ' . $db->quote($search) . ' OR ' . $name_col . ' LIKE ' . $db->quote($search2) . ') ';
 
 		if ($restrict != 0 &&
 			$slot != Model_Item::SLOT_MAIN_HAND &&
@@ -131,6 +144,7 @@ class AjaxController extends Zend_Controller_Action {
 		LIMIT 15';
 
 		//echo $query;
+		//exit;
 
     	$rows = $db->fetchAll($query);
     	//var_dump($rows);

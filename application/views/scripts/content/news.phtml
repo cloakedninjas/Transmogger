@@ -1,48 +1,10 @@
+<?php
+foreach ($this->news as $n ) {
+	$date = date("D jS F Y", strtotime($n->date));
+?>
 <div class="text">
-	<h2>Tues 10th April - German translation on the way</h2>
+	<h2><?php echo $date ?> - <?php echo $n->title; ?></h2>
 	<hr />
-	<p>Something that has been on the to-do list for some time now is localisation.</p>
-	<p>The problem is, there&apos;s 35,000~ available items which can be transmogrified, and Blizzard doesn&apos;t provide a way to grab all that data in one go.
-	So the german text is being collected now - one item at a time - (currently 2.2% complete). More translations will follow soon...</p>
+	<?php echo $n->body; ?>
 </div>
-
-<div class="text">
-	<h2>Thurs 8th March - Loadout list upgrade</h2>
-	<hr />
-	<p>The loadout lists have been merged into a single loadout page, with a filter at the top of the page</p>
-	<p>Default listing is done by popularity, you can still order by rating + age though</p>
-</div>
-
-<div class="text">
-	<h2>Sun 12th February - New server!</h2>
-	<hr />
-	<p>Last week saw Transmogger move to a new server - which hopefully should mean quicker browsing. But there&apos; been some teething issues. Hopefully they have all been sorted out</p>
-	<p>Apologies for any downtime you may have had</p>
-</div>
-
-<div class="text">
-	<h2>Weds 4th January - Item update</h2>
-	<hr />
-	<ul>
-		<li>First of all: <a href="http://www.youtube.com/watch?v=UpqknwKbvDE" target="_blank">Merry New Year!</a></li>
-		<li>Secondly, I've updated the item database; several items were missing plus some unobtainable items have been removed.</li>
-	</ul>
-</div>
-
-<div class="text">
-	<h2>Thurs 24th Novmember - Update</h2>
-	<hr />
-	<ul>
-		<li>Want a new skin for the site, till one is done, the site is now blue :) Feel free to submit ideas to me</li>
-		<li>You can now vote on loadouts!</li>
-	</ul>
-</div>
-
-<div class="text">
-	<h2>Thurs 27th October - 4.3 Items available!</h2>
-	<hr />
-	<p>Fresh dataz have arrived. Tis true!</p>
-	<p>Tier 13 and Darkmoon Faire lookalike gear is ready and waiting for you...</p>
-
-	<p><a href="/dk-tier13">DK Necrotic Boneplate</a></p>
-</div>
+<?php } ?>

@@ -1,13 +1,4 @@
 <?php
-/*
-$start = 1326891600;
-$end = 1326934800;
-
-if (time() > $start && time() < $end) {
-	echo file_get_contents(APPLICATION_PATH . '/layouts/scripts/layout-sopa.phtml');
-	exit;
-}
-*/
 
 $taglines = array (
 		'"Bringing out the banana shoulders"',
@@ -29,7 +20,7 @@ $config = Zend_Registry::get("config");
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-		<script type="text/javascript" src="/js/app.js?v=7"></script>
+		<script type="text/javascript" src="/js/app.js?v=8"></script>
 		<link type="text/css" rel="stylesheet" href="/css/screen.css?v=12" />
 		<title>Transmogger</title>
 		<meta name="description" content="Tranmogrification utility using WoWhead 3D model viewer" />
@@ -63,9 +54,15 @@ $config = Zend_Registry::get("config");
 					<li><a href="/content/news/">News</a></li>
 					<li><a href="/lists/popular/">Loadouts</a></li>
 					<li><a href="/content/rules/">Rules</a></li>
-					<li class="twitter"><a href="https://twitter.com/#!/Transmogger" target="_blank" title="Twitter Status Updates" onClick="recordOutboundLink(this, 'outbound_link', 'twitter feed');return false;"></a></li>
+					<li class="twitter"><a href="https://twitter.com/#!/Transmogger" target="_blank" title="Twitter Status Updates" onclick="recordOutboundLink(this, 'outbound_link', 'twitter feed'); return false;"></a></li>
 				</ul>
 			</div>
+			
+			<?php
+			if ($this->news !== null) {
+				echo $this->newsOutput($this->news);
+			}
+			?>
 
 			<div class="content">
 				<?php echo $this->layout()->content ?>

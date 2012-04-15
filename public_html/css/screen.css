@@ -77,6 +77,35 @@ select {
 	background-position: -23px 2px;
 }
 
+#newsflash {
+	height: 16px;
+	margin: 0 20px;
+	padding: 3px 0 2px 20px;
+	background: #333;
+	border-radius: 3px;
+	color: #fff;
+}
+
+#newsflash .title {
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+#newsflash p {
+	display: none;
+	margin: 0;
+}
+
+#newsflash a {
+	text-decoration: none;
+	color: #E1A821;
+}
+
+#newsflash .date {
+	padding: 0 0 0 20px;
+	color: #fff;
+}
+
 .content {
 	position: relative;
 	padding: 0 20px 10px;

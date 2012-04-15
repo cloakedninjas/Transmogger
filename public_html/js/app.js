@@ -14,7 +14,7 @@ app = {
 	tracking: false,
 	locale: {
 		t: null,
-		lang: "en_US",
+		lang: "en",
 		lookups: [],
 		interval: 3000,
 		results: 0,
@@ -219,7 +219,7 @@ app = {
 
 	lookupItem: function() {
 		$.ajax({
-			url: '/ajax/search-item/item/' + $("#slot_prompt input").val() + '/slot/' + app.search_slot + '/restrict/' + app.restrict,
+			url: '/ajax/search-item/item/' + $("#slot_prompt input").val() + '/slot/' + app.search_slot + '/restrict/' + app.restrict + '/lang/' + app.locale.lang,
 			type : 'get',
 			dataType : 'JSON',
 			success: function(data) {
@@ -297,9 +297,14 @@ app = {
 		app.updateFlashParam();
 		this.savePrefs();
 	},
+	
+	changeLang: function() {
+		app.locale.lang = $("select[name='lang']").val();
+		this.savePrefs();
+	},
 
 	savePrefs: function() {
-		var prefs = '{"race": "' + $("select[name='race']").val() + '", "gender": "' + $("select[name='gender']").val() + '"}';
+		var prefs = '{"race": "' + $("select[name='race']").val() + '", "gender": "' + $("select[name='gender']").val() + '", "lang": "' + $("select[name='lang']").val() + '"}';
 		setCookie('prefs', prefs, 365);
 
 	},
@@ -310,6 +315,9 @@ app = {
 		});
 		$("select[name='gender']").change(function() {
 			app.changeGender();
+		});
+		$("select[name='lang']").change(function() {
+			app.changeLang();
 		});
 	},
 
@@ -419,6 +427,7 @@ app = {
 			if (this.loadout.ref == "") {
 				this.loadout.race = cookie.race;
 				this.loadout.gender = cookie.gender;
+				this.locale.lang = cookie.lang;
 			}
 		}
 
@@ -579,6 +588,30 @@ slider = {
 		});
 	}
 
+};
+
+newsFlash = {
+	t: 0,
+	on: 0,
+	delay: 10000,
+	
+	init: function() {
+		$("#newsflash p:first").show();
+		this.t = setTimeout("newsFlash.cycle(1)", this.delay);
+	},
+	
+	cycle: function(part) {
+		if (part == 1) {
+			$("#newsflash p:eq(" + this.on + ")").animate({"opacity": 0}, 200, function() {$(this).hide(); newsFlash.cycle(2);});
+		}
+		else if (part == 2) {		
+		
+			this.on = (this.on + 1) % $("#newsflash p").length;
+			$("#newsflash p:eq(" + this.on + ")").css({"opacity": 0, "display": "block"}).animate({"opacity": 1}, 200);
+			this.t = setTimeout("newsFlash.cycle(1)", this.delay);
+		}
+		
+	}
 };
 
 
