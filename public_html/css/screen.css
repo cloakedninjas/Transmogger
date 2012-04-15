@@ -38,12 +38,10 @@ select {
 
 .header {
 	position: relative;
-	height: 100px;
-	margin: 0 0 10px;
 }
 
 .header .main_menu {
-	height: 20px;
+	height: 25px;
 	margin: 0 20px;
 	background: #333;
 	list-style-type: none;
@@ -57,8 +55,8 @@ select {
 
 .header .main_menu li a {
 	display: block;
-	height: 20px;
-	line-height: 20px;
+	height: 25px;
+	line-height: 24px;
 	color: #fff;
 	text-decoration: none;
 	font-weight: bold;
@@ -70,19 +68,21 @@ select {
 
 .main_menu .twitter {
 	width: 23px;
-	background: url(/images/twitter_icon_roll.png) 0 2px no-repeat;
+	background: url(/images/twitter_icon_roll.png) 0 4px no-repeat;
 }
 
 .main_menu .twitter:hover {
-	background-position: -23px 2px;
+	background-position: -23px 4px;
 }
 
 #newsflash {
 	height: 16px;
-	margin: 0 20px;
+	margin: 0 40px 20px;
 	padding: 3px 0 2px 20px;
-	background: #333;
+	background: #000;
 	border-radius: 3px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 	color: #fff;
 }
 
