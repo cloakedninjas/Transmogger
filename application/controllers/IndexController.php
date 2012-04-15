@@ -41,7 +41,7 @@ class IndexController extends Zend_Controller_Action {
 		}
 		
 		$news = new Model_News();
-		$this->view->news = $news->getHeadlines();
+		$this->view->newsflash = $news->getHeadlines();
 
 		/*
 		$db = Zend_Registry::get('db');
