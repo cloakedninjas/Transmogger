@@ -1,4 +1,4 @@
-app = {
+var app = {
 	loadout: {},
 	render: false,
 	flashparam: "",
@@ -13,12 +13,7 @@ app = {
 	restrict: 0,
 	tracking: false,
 	locale: {
-		t: null,
-		lang: "en",
-		lookups: [],
-		interval: 3000,
-		results: 0,
-		max: 50
+		lang: "en"
 	},
 
 	beginChangeItem: function(slot) {
@@ -92,7 +87,7 @@ app = {
 
 				var update = false;
 
-				for(i in app.loadout.items) {
+				for(var i in app.loadout.items) {
 					if (app.loadout.items[i].slot == slot) {
 						app.loadout.items[i].id = id;
 						app.loadout.items[i].display_id = data.display_id;
@@ -123,7 +118,7 @@ app = {
 	updateFlashParam: function() {
 		this.flashparam = "model=" + this.loadout.race + this.loadout.gender + "&modelType=16&mode=3&sk=0&ha=0&hc=0&fa=0&fh=0&fc=0&mode=3&contentPath=" + this.content_url + "&equipList=";
 
-		for(i in this.loadout.items) {
+		for(var i in this.loadout.items) {
 			if (this.loadout.items[i].id != 0) {
 				this.flashparam += this.loadout.items[i].slot + "," + this.loadout.items[i].display_id + ",";
 			}
@@ -147,7 +142,7 @@ app = {
 
 	updateTooltip: function(slot) {
 		if (typeof slot == 'undefined') {
-			for(i in this.loadout.items) {
+			for(var i in this.loadout.items) {
 				this.updateTooltipAction(this.loadout.items[i]);
 			}
 		}
@@ -187,7 +182,7 @@ app = {
 
 		var data = {items: []};
 
-		for(i in this.loadout.items) {
+		for(var i in this.loadout.items) {
 			if (this.loadout.items[i].id != 0) {
 				data.items.push({slot: this.loadout.items[i].slot, id: this.loadout.items[i].id});
 			}
@@ -321,66 +316,6 @@ app = {
 		});
 	},
 
-	lookupLocale: function() {
-		if (app.locale.lookups.length > 0) {
-			$("head").append("<script type=\"text/javascript\" src=\"http://eu.battle.net/api/wow/item/" + app.locale.lookups[0] + "?jsonp=app.localeCallback&locale=" + app.locale.lang + "\"></script>");
-			app.locale.t = setTimeout("app.localeFailed()", 8000);
-		}
-	},
-
-	localeCallback: function(packet) {
-		clearTimeout(app.locale.t);
-
-		$.ajax({
-			url: '/ajax/lookup-locale/',
-			type: 'post',
-			dataType : 'JSON',
-			data: {
-				id: packet.id,
-				lang: app.locale.lang,
-				name: packet.name
-			},
-			dataType : 'JSON',
-			success: function(response) {
-
-				if (typeof response.next == 'undefined') {
-					return;
-				}
-
-				app.locale.results++;
-
-				if (app.locale.results >= app.locale.max) {
-					return;
-				}
-				if (response.next != 0) {
-					app.locale.lookups[0] = response.next;
-					setTimeout("app.lookupLocale()", app.locale.interval);
-				}
-			}
-		});
-	},
-
-	localeFailed: function() {
-		$.ajax({
-			url: '/ajax/lookup-locale/',
-			type: 'post',
-			data: {
-				id: app.locale.lookups[0],
-				lang: app.locale.lang,
-				failed: 1
-			},
-			dataType : 'JSON',
-			success: function(response) {
-				if (typeof response.next != 'undefined') {
-					if (response.next != 0) {
-						app.locale.lookups[0] = response.next;
-						setTimeout("app.lookupLocale()", app.locale.interval);
-					}
-				}
-			}
-		});
-	},
-
 	init: function() {
 		$(document).keyup(function(e) {
 			// detect Esc button
@@ -401,7 +336,7 @@ app = {
 			app.search_prev = $(this).val();
 
 			clearTimeout(app.search_delay);
-			app.search_delay = setTimeout("app.lookupItem()", 500);
+			app.search_delay = setTimeout(app.lookupItem, 500);
 		});
 
 		if (this.render) {
@@ -488,10 +423,6 @@ app = {
 				$("#help section.rate span.cast").hide();
 				$("#help section.rate span.current").show();
 		});
-
-
-		// get localizations
-		//this.locale.t = setTimeout("app.lookupLocale()", this.locale.interval);
 	}
 };
 
@@ -519,7 +450,7 @@ function getCookie(c_name) {
 	}
 }
 
-slider = {
+var slider = {
 	cache: {
 		urls: [],
 		html: []
@@ -590,7 +521,7 @@ slider = {
 
 };
 
-newsFlash = {
+var newsFlash = {
 	t: 0,
 	on: 0,
 	delay: 10000,
