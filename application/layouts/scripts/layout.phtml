@@ -7,10 +7,12 @@ $taglines = array (
 		'"Teach a man to fish, and he\'ll equip it as his main weapon"',
 		'"Woot! Bikini plate FTW :)"',
 		'"Got ma pimp cane, bitch!"',
-		'"60% of the time, it works every time"'
+		'"60% of the time, it works every time"',
+        'Greetings!',
+        'Stay a while and listen...'
 	);
 
-$rand = rand(0, 6);
+$rand = rand(0, count($taglines)-1);
 $random_tagline = $taglines[$rand];
 
 $config = Zend_Registry::get("config");
@@ -72,7 +74,9 @@ $config = Zend_Registry::get("config");
 		</div>
 
 		<div id="footer">
-			<p>&copy; <?php echo date("Y"); ?> -
+			<p>&copy; <?php echo date("Y"); ?>
+            <a class="ninja" href="http://cloakedninjas.co.uk" target="_blank"></a>
+            -
 			Artwork by <a href="http://eu.battle.net/wow/en/" target="_blank">Blizzard</a> |
 			3D Model viewer by <a href="http://www.wowhead.com/" target="_blank">WoWHead</a> |
 			<a href="mailto:feedback@transmogger.info">Feedback</a>
