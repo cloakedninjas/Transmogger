@@ -21,6 +21,7 @@ var ItemLookup = {
   },
 
   fetchData: function (itemId, locale) {
+    console.log('go fetch ', itemId, this);
     if (this.lookupCount < this.maxLookups) {
       var url = this.rootUrl.replace('#itemId#', itemId).replace('#locale#', locale);
 
@@ -44,7 +45,7 @@ var ItemLookup = {
         failed: true
       },
 
-      success: ItemLookup.checkToRunAnother,
+      success: ItemLookup.checkToRunLookup,
 
       error: function () {
         ItemLookup.requestWork();
