@@ -2,15 +2,8 @@
 
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
-if (APPLICATION_ENV == 'dev') {
-	$lib_path = realpath(dirname(__FILE__) . '/../../_libs/zf');
-	$app_path = realpath(dirname(__FILE__) . '/../application');
-}
-else {
-	$lib_path = realpath(dirname(__FILE__) . '/_lib/zf');
-	$app_path = realpath(dirname(__FILE__) . '/_application');
-}
-
+$lib_path = realpath(dirname(__FILE__) . '/../../_libs/zf');
+$app_path = realpath(dirname(__FILE__) . '/../application');
 
 // Define path to application directory
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', $app_path);
