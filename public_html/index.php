@@ -5,8 +5,6 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV
 if (APPLICATION_ENV == 'dev') {
 	$lib_path = realpath(dirname(__FILE__) . '/../../_libs/zf');
 	$app_path = realpath(dirname(__FILE__) . '/../application');
-	
-	//$app_path = '/home/recombob/application';
 }
 else {
 	$lib_path = realpath(dirname(__FILE__) . '/_lib/zf');

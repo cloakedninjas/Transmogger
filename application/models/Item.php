@@ -177,6 +177,7 @@ class Model_Item extends Model_Base {
 
 	public function create($id) {
 		$url = "http://eu.battle.net/api/wow/item/$id";
+        //echo $url . "<br />";
 
 		$curl = curl_init();
     	curl_setopt($curl, CURLOPT_URL, $url);

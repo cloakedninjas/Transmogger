@@ -46,44 +46,50 @@ class BatchController extends Zend_Controller_Action {
     }
 
     public function itemSyncAction() {
-    	exit;
+    	//exit;
     	set_time_limit(0);
-    	$db = Zend_Registry::get('db');
 
     	// get last item ID
     	//$last = $db->fetchRow("SELECT MAX(id) AS id FROM items");
     	//$last = $last->id;
-    	$last = 71798;
+    	$last = 79239;
+
+        $log = realpath(__DIR__) . '/../../http.log';
 
     	$finished = false;
     	$i = 1;
-    	$fail_count = 10;
+        $defaultFailCount = 10000;
+    	$fail_count = 10000;
+        $success_count = 10000;
 
     	while (!$finished) {
     		$id = $i + $last;
 
-    		file_put_contents("C:/www2/transmogger/http.log", "trying $id\n", FILE_APPEND);
+    		file_put_contents($log, "trying $id\n", FILE_APPEND);
 
     		$item = new Model_Item();
 			$return = $item->create($id);
 
-			file_put_contents("C:/www2/transmogger/http.log", "$id was $return\n", FILE_APPEND);
+            $status = ($return) ? 'OK' : 'Not OK';
 
-			if ($return == false) {
+			file_put_contents($log, "$id was $status\n", FILE_APPEND);
+
+			if (!$return) {
 				$fail_count--;
 			}
 			else {
-				$fail_count = 10;
+				$fail_count = $defaultFailCount;
+                $success_count--;
 			}
 
-			if ($fail_count == 0) {
-				$finished = true;
-				file_put_contents("C:/www2/transmogger/http.log", "stopping at $id\n", FILE_APPEND);
+			if ($fail_count == 0 || $success_count === 0) {
+                $finished = true;
+				file_put_contents($log, "stopping at $id\n", FILE_APPEND);
 				break;
 			}
 
 			$i++;
-			usleep(2000);
+			sleep(1);
     	}
     }
 }

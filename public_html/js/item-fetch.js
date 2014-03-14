@@ -2,13 +2,23 @@ var ItemLookup = {
   maxLookups: 50,
   lookupCount: 0,
   delay: 1000,
-  failTimeout: 20000,
+  failTimeout: 5000,
   timer: null,
 
   itemId: null, // id of item being looked up
   locale: null, // locale of item being looked up
 
-  rootUrl: 'http://eu.battle.net/api/wow/item/#itemId#?locale=#locale#&jsonp=ItemLookup.lookupComplete',
+  rootUrl: 'http://eu.battle.net/api/wow/item/#itemId#?locale=#locale#&cacheBust=' + (new Date().getTime()) + '&jsonp=ItemLookup.lookupComplete',
+
+  requestWork: function () {
+    $.ajax({
+      url: '/fetch/get-new-job/',
+      type: 'GET',
+      dataType : 'JSON',
+
+      success: ItemLookup.checkToRunLookup
+    });
+  },
 
   fetchData: function (itemId, locale) {
     if (this.lookupCount < this.maxLookups) {
@@ -19,22 +29,26 @@ var ItemLookup = {
 
       $('head').append('<script type="text/javascript" src="' + url + '"></script>');
 
-      this.timer = setTimeout(ItemLookup.reportLookupFailed, this.failTimeout);
+      this.timer = setTimeout(this.reportLookupFailed, this.failTimeout);
     }
   },
 
   reportLookupFailed: function () {
     $.ajax({
-      url: '/ajax/lookup-locale/',
+      url: '/fetch/post-response/',
       type: 'POST',
       dataType : 'JSON',
       data: {
-        id: this.itemId,
-        lang: this.locale,
+        id: ItemLookup.itemId,
+        lang: ItemLookup.locale,
         failed: true
       },
 
-      success: this.performNextLookup
+      success: ItemLookup.checkToRunAnother,
+
+      error: function () {
+        ItemLookup.requestWork();
+      }
     });
   },
 
@@ -47,7 +61,7 @@ var ItemLookup = {
 
   reportSuccessfulLookup: function (response) {
     $.ajax({
-      url: '/ajax/lookup-locale/',
+      url: '/fetch/post-response/',
       type: 'POST',
       dataType : 'JSON',
       data: {
@@ -62,19 +76,21 @@ var ItemLookup = {
         subType: response.itemSubClass
       },
 
-      success: this.performNextLookup
+      success: function (response) {
+        setTimeout(function () {
+          ItemLookup.checkToRunLookup(response);
+        }, ItemLookup.delay);
+      },
+
+      error: function () {
+        ItemLookup.requestWork();
+      }
     });
   },
 
-  performNextLookup: function (response) {
-    if (typeof response.next === 'undefined') {
-      return;
-    }
-
-    if (this.lookupCount < this.maxLookups) {
-      setTimeout(function () {
-        ItemLookup.fetchData(response.next.id, response.next.locale);
-      }, this.delay);
+  checkToRunLookup: function (response) {
+    if (response) {
+      ItemLookup.fetchData(response.id, response.locale);
     }
   }
 };

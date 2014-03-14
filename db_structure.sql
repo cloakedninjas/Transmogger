@@ -43,3 +43,16 @@ CREATE TABLE `news` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `item_fetch` (
+`id`  int UNSIGNED NOT NULL ,
+`name`  varchar(255) NULL ,
+`icon`  varchar(255) NULL ,
+`i_level`  int UNSIGNED NULL ,
+`quality`  int UNSIGNED NULL ,
+`inv_id`  int UNSIGNED NULL ,
+`type`  int UNSIGNED NULL ,
+`sub_type`  int UNSIGNED NULL ,
+`lookup_count`  int UNSIGNED NULL ,
+`locale`  varchar(100) NULL ,
+PRIMARY KEY (`id`)
+);

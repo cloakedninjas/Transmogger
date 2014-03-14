@@ -46,10 +46,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 		$view->addHelperPath(APPLICATION_PATH . '/views/helpers', 'App_View_Helper');
 
-		//$view->headTitle(Zend_Registry::get('config')->site->name);
-		//$view->headMeta()->appendName('keywords', 'Recombobulator, character analysis, character auditing, guild auditing, audit, auditing, aggregator, analysis, wow, world of warcraft');
-		//$view->headMeta()->appendName('description', 'Character audting and analysis for World of Warcraft.');
-
 		Zend_Session::start();
 	}
 }
