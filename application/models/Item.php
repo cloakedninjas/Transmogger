@@ -217,8 +217,15 @@ class Model_Item extends Model_Base {
 	}
 
 	public function getDisplayId() {
-		$url = "http://www.wowhead.com/item=$this->id&xml";
-    	$xml = file_get_contents($url);
+		$url = "http://www.wowhead.com/item=$this->id?xml";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'transmogger.info');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+        $xml = curl_exec($ch);
 
     	preg_match("/displayId=\"(\d+)\"/", $xml, $matches);
 

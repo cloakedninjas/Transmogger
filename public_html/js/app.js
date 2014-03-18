@@ -121,7 +121,7 @@ app = {
 	},
 
 	updateFlashParam: function() {
-		this.flashparam = "model=" + this.loadout.race + this.loadout.gender + "&modelType=16&mode=3&sk=0&ha=0&hc=0&fa=0&fh=0&fc=0&mode=3&contentPath=" + this.content_url + "&equipList=";
+    this.flashparam = "model=" + this.loadout.race + this.loadout.gender + "&modelType=16&contentPath=" + this.content_url + "&equipList=";
 
 		for(i in this.loadout.items) {
 			if (this.loadout.items[i].id != 0) {

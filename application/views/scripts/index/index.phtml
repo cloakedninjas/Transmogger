@@ -86,23 +86,26 @@ if ($this->loadout->set_name) {
 	</div>
 	<div id="mviewer">
 		<div>
-<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" WIDTH="100%" HEIGHT="100%" data="<?php echo $this->swf_url; ?>">
-<PARAM NAME="movie" VALUE="<?php echo $this->swf_url; ?>">
-<PARAM NAME="quality" VALUE="high">
-<PARAM NAME="flashvars" VALUE="">
-<PARAM NAME="wmode" VALUE="transparent">
-<param name="allowfullscreen" value="true">
-<param name="allowscriptaccess" value="always">
-<param name="menu" value="false">
-<EMBED wmode="transparent" src="<?php echo $this->swf_url; ?>"
-quality="high" WIDTH="100%" HEIGHT="100%" TYPE="application/x-shockwave-flash"
-flashvars=""
-PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer"
-allowfullscreen="true"
-allowscriptaccess="always"
-menu="false"
-></EMBED>
-</OBJECT>
+
+<object type="application/x-shockwave-flash" data="<?php echo $this->swf_url; ?>" width="275" height="345" id="dsjkgbdsg2346">
+    <param name="quality" value="high">
+    <param name="allowscriptaccess" value="always">
+    <param name="allowfullscreen" value="true">
+    <param name="menu" value="false">
+    <param name="bgcolor" value="#181818">
+    <param name="wmode" value="direct">
+    <param name="flashvars" value="">
+
+    <EMBED wmode="direct" src="<?php echo $this->swf_url; ?>"
+           quality="high" WIDTH="275" HEIGHT="345" TYPE="application/x-shockwave-flash"
+           flashvars=""
+           PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer"
+           allowfullscreen="true"
+           allowscriptaccess="always"
+           menu="false"
+           bgcolor="#181818"
+        ></EMBED>
+</object>
 		</div>
 	</div>
 
